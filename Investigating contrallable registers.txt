@@ -1,0 +1,9 @@
+Source: https://ommadawn46.medium.com/windows-kernel-exploitation-hevd-on-windows-10-22h2-b407c6f5b8f7
+
+1. Set two breakpoints. The first breakpoint being before the event and the second after the event.
+
+2. When the first breakpoint hits, paste in WinDbg
+
+r rax=4141414141414141;r  ;r rsi=4343434343434343;r rdi=4444444444444444;r r8=4545454545454545;r r9=4646464646464646;r r10=4747474747474747  ;r r11=4848484848484848;r r12=4949494949494949;r r13=5050505050505050;r r14=5151515151515151 ;r r15=5252525252525252
+
+3. Check registers
