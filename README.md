@@ -1,1 +1,2 @@
-This repository contains a collection of common code snippets for Windows kernel exploit development. It serves as a reference for various kernel exploitation techniques. Please note that not all code in this repository is original. Some snippets may have been referenced from other sources. Credit will be given wherever possible to acknowledge the original authors.
+This repository contains a collection of code snippets for Windows kernel exploit development. It serves as a reference for various kernel exploitation techniques that I have found useful. Please note that not all the code in this repository is original; some snippets may have been sourced from other references. Credit will be given wherever possible to acknowledge the original authors.
+
