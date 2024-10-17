@@ -1,0 +1,9 @@
+- For PoC testing purposes
+- Source (https://github.com/ommadawn46/HEVD-BufferOverflowNonPagedPoolNx-Win10-22H2)
+
+copy %systemroot%\system32\cmd.exe .\cmd-low-integrity.exe
+icacls .\cmd-low-integrity.exe /setintegritylevel low
+.\cmd-low-integrity.exe
+
+- Verify the integrity level:
+whoami /groups | find "Mandatory Label"
