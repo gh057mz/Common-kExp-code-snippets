@@ -1,5 +1,7 @@
 #include <windows.h>
 #include <stdint.h>
+#include <Psapi.h>
+
 
 
 // Method 1
