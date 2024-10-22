@@ -1,0 +1,12 @@
+kd> !process 0 0 exploit.exe
+
+PROCESS ffffe38ade611080
+    SessionId: 1  Cid: 107c    Peb: 00240000  ParentCid: 1170
+    DirBase: 440e1002  ObjectTable: ffffb98fef803340  HandleCount:  52.
+    Image: exploit.exe
+
+kd> .process /i ffffe38ade611080
+
+You need to continue execution (press 'g' <enter>) for the context
+to be switched. When the debugger breaks in again, you will be in
+the new process context.
