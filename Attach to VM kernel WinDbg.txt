@@ -1,0 +1,9 @@
+- In VM
+bcdedit debug on
+bcdedit /dbgsettings net hostip:<host_ip> port:<host_port>
+
+- Enter key and port into WinDbg
+- If no connection search for Windows Defender Firewall with advanced security in both host and VM
+- Go to inbound rules
+- Ensure File and Printer Sharing (Echo request - ICMPv4) is turned on
+- Go to outbound rules - do same
