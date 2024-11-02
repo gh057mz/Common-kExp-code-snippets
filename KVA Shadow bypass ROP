@@ -1,4 +1,4 @@
-source: https://kristal-g.github.io/2021/02/07/HEVD_StackOverflowGS_Windows_10_RS5_x64.html
+source: https://kristal-g.github.io/2021/02/20/HEVD_Type_Confusion_Windows_10_RS5_x64.html
 
 pop rcx                 ; rcx = shellcode address
 call MiGetPteAddress    
