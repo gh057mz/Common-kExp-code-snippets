@@ -1,0 +1,40 @@
+Inspecting the token of a system process in windbg
+
+0: kd> !process 4 0
+
+	PROCESS ffffd082cc297080
+	SessionId: none  Cid: 0004    Peb: 00000000  ParentCid: 0000
+	DirBase: 001aa000  ObjectTable: ffffe789d0664e00  HandleCount: 2953.
+	Image: System
+
+0: kd> dt _EPROCESS ffffd082cc297080
+	
+	ntdll!_EPROCESS
+   		+0x000 Pcb              : _KPROCESS
+   		+0x438 ProcessLock      : _EX_PUSH_LOCK
+		...
+   		+0x4b8 Token            : _EX_FAST_REF
+
+
+- Inspect the token
+
+0: kd> dt _EX_FAST_REF ffffd082cc297080+0x4b8
+
+	ntdll!_EX_FAST_REF
+   		+0x000 Object           : 0xffffe789`d06428dc Void
+   		+0x000 RefCnt           : 0y1100
+   		+0x000 Value            : 0xffffe789`d06428dc
+
+* _EX_FAST_REF stores a reference count in the lowest 4 bits of the address
+* Mask these out to get the real address.
+
+``` Python
+
+>>> hex(0xffffe789d06428dc & ~0b1111)
+'0xffffe789d06428d0'
+
+```
+
+0: kd> !token 0xffffe789d06428d0 0
+	
+- Done.
